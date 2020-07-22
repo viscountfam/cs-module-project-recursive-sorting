@@ -5,39 +5,45 @@ def merge(arrA, arrB):
     
     # Your code here
     #create pointers
-    i = 0
-    j = 0 
-    k = 0
+    index = 0
     # Traverse both array
-    while i < len(arrA) and j < n2:
+    while len(arrA) != 0 and len(arrB) != 0:
         # compare the values of the two arrays
         # add the smaller value to the array
-        if arrA[i] < arr2[j]:
-            merged_arr[k] = arrA[i]
-            k += 1
-            i += 1
+        if arrA[0] > arrB[0]:
+            merged_arr[index] = arrB[0]
+            arrB.pop(0)
         else:
-            merged_arr[k] = arrB[j]
-            k = k + 1
-            j = J + 1
-        
-    # Store remaining elements
-    # of first array
-    while i < len(arrA):
-        merged_arr[k] = arr1[i]
-        k = k + 1
-        i = i + 1
+            merged_arr[index] = arrA[0]
+            arrA.pop(0)
+        index += 1
 
-
-
+    # if one array is empty and the other one is not
+    # add the remaining values to the list
+    if len(arrA) == 0 and len(arrB) != 0:
+        while len(arrB) != 0:
+            merged_arr[index] = arrB[0]
+            arrB.pop(0)
+            index += 1
+    elif len(arrB) == 0 and len(arrA) != 0:
+        while len(arrA) != 0:
+            merged_arr[index] = arrA[0]
+            arrA.pop(0)
+            index += 1
     return merged_arr
-
 # TO-DO: implement the Merge Sort function below recursively
 def merge_sort(arr):
     # Your code here
-    mid = len(arr) // 2
-    arr = merge(arr[1:mid], arr[mid:])
+    # check to see if the list is a single element
+    if len(arr) > 1:
+        # create your pointers
+        mid = len(arr) // 2
+        # split the list in half
+        left = arr[:mid]
+        right = arr[mid:]
 
+        # call the function until you reach the base case
+        return merge(merge_sort(left), merge_sort(right))
     return arr
 
 # STRETCH: implement the recursive logic for merge sort in a way that doesn't 
@@ -46,8 +52,47 @@ def merge_sort(arr):
 # or data structures; it can only re-use the memory it was given as input
 def merge_in_place(arr, start, mid, end):
     # Your code here
-    pass
+    # create an alternate start point
+    s2 = mid + 1
+
+    # if the merge is sorted
+    if arr[mid] <= arr[s2]:
+        return
+    
+    # use pointers to mark
+    # where each list began
+    while start <= mid and s2 <= end:
+
+        #if the first element is placed correctly
+        if arr[start] <= arr[s2]:
+            start += 1
+        else:
+            value = arr[s2]
+            index = s2
+        
+        # shift all elements between your two elements right 1 space
+        while index != start:
+            arr[index] = arr[index - 1]
+            index -= 1
+        
+        arr[start] = value
+
+        #change pointers
+        start += 1
+        mid += 1
+        s2 += 1
+    
+    return arr
 
 def merge_sort_in_place(arr, l, r):
     # Your code here
-    pass
+    if (l < r):
+
+        mid = l + (r - 1) // 2
+
+        merge_sort_in_place(arr, l, mid)
+        merge_sort_in_place(arr, mid + 1, r)
+
+        merge_in_place(arr, l, m, r)
+
+    return arr
