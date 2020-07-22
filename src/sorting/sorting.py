@@ -35,7 +35,8 @@ def merge(arrA, arrB):
 # TO-DO: implement the Merge Sort function below recursively
 def merge_sort(arr):
     # Your code here
-    
+    mid = len(arr) // 2
+    arr = merge(arr[1:mid], arr[mid:])
 
     return arr
 
